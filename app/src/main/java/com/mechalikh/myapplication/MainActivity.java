@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupMenu.show();
     }
 
-    private void showOptionsMenu() {
-        openOptionsMenu();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

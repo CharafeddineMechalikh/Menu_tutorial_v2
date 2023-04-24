@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ContextMenuActivity extends AppCompatActivity {
             setContentView(R.layout.activity_context_menu);
 
             mRecyclerView = findViewById(R.id.recycler_view);
-            mAdapter = new MyAdapter(Arrays.asList("Item 1", "Item 2", "Item 3"));
+            mAdapter = new MyAdapter(new ArrayList<>(Arrays.asList("Item 1", "Item 2", "Item 3")));
             mRecyclerView.setAdapter(mAdapter);
 
             mAdapter.setActionModeCallback(new ActionMode.Callback() {

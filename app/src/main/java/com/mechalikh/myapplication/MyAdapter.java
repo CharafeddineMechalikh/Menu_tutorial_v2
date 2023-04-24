@@ -12,7 +12,6 @@ import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -20,6 +19,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<String> mData;
     private SparseBooleanArray mSelectedItems;
     private ActionMode.Callback mActionModeCallback;
+    androidx.appcompat.view.ActionMode actionMode;
 
     public MyAdapter(List<String> data) {
         mData = data;
@@ -62,13 +62,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public void removeSelectedItems() {
         List<Integer> selectedItems = getSelectedItemPositions();
-        Collections.sort(selectedItems, Collections.reverseOrder());
-        for (int position : selectedItems) {
+        for (int i = selectedItems.size() - 1; i >= 0; i--) {
+            int position = selectedItems.get(i);
             mData.remove(position);
             notifyItemRemoved(position);
         }
         mSelectedItems.clear();
     }
+
 
     public void setActionModeCallback(ActionMode.Callback callback) {
         mActionModeCallback = callback;
@@ -108,6 +109,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             int position = getAdapterPosition();
             if (mSelectedItems.size() > 0) {
                 toggleSelection(position);
+                if (actionMode != null)
+                    actionMode.setTitle(String.valueOf(getSelectedItemCount()));
             } else {
                 // Handle item click event here
             }
@@ -119,7 +122,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             if (mSelectedItems.size() == 0) {
                 toggleSelection(position);
                 // Start the action mode
-                androidx.appcompat.view.ActionMode actionMode = ((AppCompatActivity) v.getContext()).startSupportActionMode(mActionModeCallback);
+                actionMode = ((AppCompatActivity) v.getContext()).startSupportActionMode(mActionModeCallback);
                 if (actionMode != null) {
                     // Set the title of the action mode to the number of selected items
                     actionMode.setTitle(String.valueOf(getSelectedItemCount()));
